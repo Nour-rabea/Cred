@@ -93,7 +93,7 @@
   top: +7%;
   width: 40px; height: 40px;">التقسيم الاداري</button>
 	
-	<button id="Sur" class="display" onclick="myction()" aria-label="Trigger Action" style="position: absolute; top: 20px;
+	<button id="Sur" class="display" onclick="myaction()" aria-label="Trigger Action" style="position: absolute; top: 20px;
   right: 20px;
   right: 3.5%;
   top: 1%;
@@ -113,15 +113,17 @@
       scrollWheelZoom: true,
       tap: false
     }).setView([30.02,31.55], 11); // default center is overridden by Google Sheet options and points
+	  
 	      var imageUrl = 'media/Castle LandMark.png',
    	imageBounds = [[29.97287392352009, 31.711373480696945], [29.97053381500239, 31.715168550377484], [29.9679917154688, 31.712350924705873], [29.970716608032465, 31.709196271401364]];
 	L.imageOverlay(imageUrl, imageBounds).addTo(map);
+	  
 	  var imageUrl = 'media/Ever New Cairo.png',
    	imageBounds = [[29.96082394542264, 31.551824360849114], [29.95878863958161, 31.572030310322205], [29.946888523035046, 31.571582159250166], [29.947827600512134, 31.551560355430034]];
 	L.imageOverlay(imageUrl, imageBounds).addTo(map);
+	  
 	  var imageUrl = 'media/Ever October.png',
-   	imageBounds = [[30.00261057433003, 30.964877735753902], [29.99936753205223, 30.968890630645248],
-     [30.002336587932106, 30.972919406616146],[30.005060786741346, 30.97019297183146]];
+   	imageBounds = [[30.00261057433003, 30.964877735753902], [29.99936753205223, 30.968890630645248], [30.002336587932106, 30.972919406616146],[30.005060786741346, 30.97019297183146]];
 	L.imageOverlay(imageUrl, imageBounds).addTo(map);
   </script>
 
@@ -140,7 +142,7 @@
   </script>
 
 <script>
-  function myction() {
+  function myaction() {
     var imageUrl = 'media/Surroundingss.jpg',
     imageBounds = [[30.023187484365465, 31.527730225468716], [30.02228130251076, 31.61048047448948], [29.948535934252433, 31.60738527709509], [29.9492774586029, 31.528362226556002]];
 	L.imageOverlay(imageUrl, imageBounds).addTo(map);
