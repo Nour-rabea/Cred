@@ -113,12 +113,10 @@
       scrollWheelZoom: true,
       tap: false
     }).setView([30.02,31.55], 11); // default center is overridden by Google Sheet options and points
-
-    	var imageUrl = 'media/Ever New Cairo.png',
+	  var imageUrl = 'media/Ever New Cairo.png',
    	imageBounds = [[29.96082394542264, 31.551824360849114], [29.95878863958161, 31.572030310322205], [29.946888523035046, 31.571582159250166], [29.947827600512134, 31.551560355430034]];
 	L.imageOverlay(imageUrl, imageBounds).addTo(map);
-
-	var imageUrl = 'media/Ever West.png',
+	  var imageUrl = 'media/Ever West.png',
    	imageBounds = [[30.00261057433003, 30.964877735753902], [29.99936753205223, 30.968890630645248],
      [30.002336587932106, 30.972919406616146],[30.005060786741346, 30.97019297183146]];
 	L.imageOverlay(imageUrl, imageBounds).addTo(map);
