@@ -613,7 +613,7 @@ $(window).on('load', function() {
 
     createDocumentSettings(options);
 
-    document.title = getSetting('_mapTitle');
+    ///document.title = getSetting('_mapTitle');
     addBaseMap();
 
     // Add point markers to the map
