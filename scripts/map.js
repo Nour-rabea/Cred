@@ -614,6 +614,7 @@ $(window).on('load', function() {
     createDocumentSettings(options);
 
     ///document.title = getSetting('_mapTitle');
+    document.title = 'Cred Development';
     addBaseMap();
 
     // Add point markers to the map
