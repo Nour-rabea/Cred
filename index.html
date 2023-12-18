@@ -129,18 +129,18 @@
 </script>
 
 <script>
-  var myImageLayer;
+  var myImageLayer1;
 
   function myAction() {
     var imageUrl = 'media/Surroundingss.jpg';
     var imageBounds = [[30.023187484365465, 31.527730225468716], [30.02228130251076, 31.61048047448948], [29.948535934252433, 31.60738527709509], [29.9492774586029, 31.528362226556002]];
 
-    if (myImageLayer) {
-      map.removeLayer(myImageLayer);
-      myImageLayer = null;
+    if (myImageLayer1) {
+      map.removeLayer(myImageLayer1);
+      myImageLayer1 = null;
     } else {
-      myImageLayer = L.imageOverlay(imageUrl, imageBounds);
-      myImageLayer.addTo(map);
+      myImageLayer1 = L.imageOverlay(imageUrl, imageBounds);
+      myImageLayer1.addTo(map);
     }
   }
 </script>
