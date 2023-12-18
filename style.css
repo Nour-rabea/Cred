@@ -115,6 +115,32 @@ form {
   top: -2%;
 }
 
+#container1 {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  right: 3.5%;
+  top: 5%;
+  padding: 10px;
+  z-index: 400;
+  text-align: left;
+  right: 0.5%;
+  top: +4%;
+}
+
+#container2 {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  right: 3.5%;
+  top: 10%;
+  padding: 10px;
+  z-index: 400;
+  text-align: left;
+  right: 0.5%;
+  top: +10%;
+}
+
 .polygons-legend-scale {
   margin-top: 4px;
   padding-top: 7px;
