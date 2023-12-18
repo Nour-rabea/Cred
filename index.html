@@ -110,22 +110,40 @@
     map.flyTo([30.002088,30.969116], 15);
   }
   </script>
-  
-<script>
-  function myFunction() {
-    var imageUrl = 'media/layout.png',
-    	imageBounds = [[29.994293, 31.574531], [29.933195, 31.521640], [29.921658, 31.583310]];
-	L.imageOverlay(imageUrl, imageBounds).addTo(map);
-  }
-  </script>
 
 <script>
-  function myAction() {
-    var imageUrl = 'media/Surroundingss.jpg',
-    imageBounds = [[30.023187484365465, 31.527730225468716], [30.02228130251076, 31.61048047448948], [29.948535934252433, 31.60738527709509], [29.9492774586029, 31.528362226556002]];
-	L.imageOverlay(imageUrl, imageBounds).addTo(map);
+  var myImageLayer;
+
+  function myFunction() {
+    var imageUrl = 'media/layout.png';
+    var imageBounds = [[29.994293, 31.574531], [29.933195, 31.521640], [29.921658, 31.583310]];
+
+    if (myImageLayer) {
+      map.removeLayer(myImageLayer);
+      myImageLayer = null;
+    } else {
+      myImageLayer = L.imageOverlay(imageUrl, imageBounds);
+      myImageLayer.addTo(map);
+    }
   }
-  </script>
+</script>
+
+<script>
+  var myImageLayer;
+
+  function myAction() {
+    var imageUrl = 'media/Surroundingss.jpg';
+    var imageBounds = [[30.023187484365465, 31.527730225468716], [30.02228130251076, 31.61048047448948], [29.948535934252433, 31.60738527709509], [29.9492774586029, 31.528362226556002]];
+
+    if (myImageLayer) {
+      map.removeLayer(myImageLayer);
+      myImageLayer = null;
+    } else {
+      myImageLayer = L.imageOverlay(imageUrl, imageBounds);
+      myImageLayer.addTo(map);
+    }
+  }
+</script>
     
     <script>
   function addRowHandlers() {
