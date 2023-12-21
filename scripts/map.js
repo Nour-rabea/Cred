@@ -741,26 +741,16 @@ $(window).on('load', function() {
         $('.loader').hide();
     
         // Open intro popup window in the center of the map
-    function hideIntroPopup() {
-          var popup = getSetting('_introPopupText');
-          if (popup) popup.style.display = 'none';
-        }
-        
         if (getSetting('_introPopupText') != '') {
           initIntroPopup(getSetting('_introPopupText'), map.getCenter());
-          
-          // Hide the popup after 3 seconds (3000 milliseconds)
-          setTimeout(function() {
-            hideIntroPopup();
-          }, 3000);
         };
-        
-        togglePolygonLabels();
-        } else {
-          setTimeout(showMap, 50);
-        }
-    }
 
+        togglePolygonLabels();
+      } else {
+        setTimeout(showMap, 50);
+      }
+    }
+    
     // Add Google Analytics if the ID exists
     var ga = getSetting('_googleAnalytics');
     console.log(ga)
