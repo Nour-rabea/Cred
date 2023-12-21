@@ -83,6 +83,28 @@
 <button id="container" class="btn">Prices Analysis</button><button id="container1" class="btn" onclick="myFunction()">Urban planning</button><button id="container2" class="btn" onclick="myAction()">Master Plans</button>
 	
 <table id="maptable" class="display"></table>
+
+	<div id="introPopup" role="dialog" aria-labelledby="dialogTitle" style="display: none;">
+  <h2 id="dialogTitle">Introductory popup</h2>
+  <img id="dialogImg" src="media/Classified.png" alt="Description of the image for screen readers">
+</div>
+
+<script>
+function initIntroPopup(imgSrc, altText, center) {
+  var popup = document.getElementById('introPopup');
+  var img = document.getElementById('dialogImg');
+  img.src = imgSrc;
+  img.alt = altText;
+  // Position popup at center, etc...
+  popup.style.display = 'block';
+  
+  setTimeout(function() {
+    popup.style.display = 'none';
+  }, 4000);
+}
+
+initIntroPopup('media/Classified.png', 'Description of the image for screen readers', map.getCenter());
+</script>
 	
   <script type="text/javascript">
     var map = L.map('map', {
