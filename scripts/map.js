@@ -864,7 +864,17 @@ $(window).on('load', function() {
     }
   }
 
+ function initIntroPopup(info, coordinates) {
+    // This is a pop-up for mobile device
+    if (window.matchMedia("only screen and (max-width: 760px)").matches) {
+      $('body').append('<div id="mobile-intro-popup"><p>' + info +
+        '</p><div id="mobile-intro-popup-close"><i class="fas fa-times"></i></div></div>');
 
+      $('#mobile-intro-popup-close').click(function() {
+        $("#mobile-intro-popup").hide();
+      });
+      return;
+    }
  
 
     /* And this is a standard popup for bigger screens */
