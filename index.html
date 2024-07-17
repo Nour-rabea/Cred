@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="media/MR.png">
+  <link rel="icon" type="image/png" href="media\MR.png">
 
   <title>Interactive Map ..</title>
 
@@ -65,138 +65,73 @@
 </head>
 
 <body>
-	<script language="javascript"></script>
-<!--hide
-///var password;
-///var pass1="";
-///password=prompt('Password Required','');
-///if (password==pass1);
-///else {
-	///window.location="https://nour-rabea.github.io/Cred/";
-///}
+	<script language="javascript">
+/*<!--hide
+var password;
+var pass1="";
+password=prompt('Password Required..','');
+if (password==pass1);
+else {
+  window.location="http://localhost/Cred-main/index.html";
+}
 -->
+	</script>
 	
-
   <div class="loader">Loading...</div>
-  <div id="map">
-  </div>
-<button id="container" class="btn">Prices Analysis</button>
-<button id="container1" class="btn" onclick="myFunction()">Urban planning</button>
-<button id="container2" class="btn" onclick="myAction()">Master Plans</button>
+	<div id="map"></div>
 	
-<table id="maptable" class="display"></table>
+	<button id="container" class="btn">Prices Analysis</button>
+	<button id="container1" class="btn" onclick="masterplan()">Master Plans</button>
 	
-  <script type="text/javascript">
-    var map = L.map('map', {
-      attributionControl: false,
-      zoomControl: false,
-      scrollWheelZoom: true,
-      tap: false
-    }).setView([30.02,31.55], 11); // default center is overridden by Google Sheet options and points
-    var osm = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}').addTo(map);
-
-    var Stadia_AlidadeSatellite = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.{ext}', {
-	    minZoom: 0,
-	    maxZoom: 20,
-	    ext: 'jpg'
-    });
-
-    var TopPlusOpen_Grey = L.tileLayer('http://sgx.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web_grau/default/WEBMERCATOR/{z}/{y}/{x}.png', {
-    	maxZoom: 18
-    });
-
-    var Streetmap = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.{ext}', {
-	    minZoom: 0,
-	    maxZoom: 20,
-	    ext: 'png'
-    });
+	<table id="maptable" class="display"></table>
+	
+<script type="text/javascript">
+	var map = L.map('map', {
+		attributionControl: false,
+		zoomControl: false,
+		scrollWheelZoom: true,
+		tap: false
+	}).setView([30.02,31.55], 11); // default center is overridden by Google Sheet options and points
+	var osm = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}').addTo(map);
+	var TopPlusOpen_Grey = L.tileLayer('http://sgx.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web_grau/default/WEBMERCATOR/{z}/{y}/{x}.png', {maxZoom: 18});
 
 //Leaflet layer control
-var baseMaps = {
-  'Satellite': osm,
-  //'Satellity Details': Stadia_AlidadeSatellite,
-  'Street Map': TopPlusOpen_Grey,
-  //'Clear': Streetmap
-}
-	  var overlayMaps = {
-  'Eagle Eye': map
-}	  
-	      var imageUrl = 'media/Castle LandMark.png',
-   	imageBounds = [[29.97287392352009, 31.711373480696945], [29.97053381500239, 31.715168550377484], [29.9679917154688, 31.712350924705873], [29.970716608032465, 31.709196271401364]];
-	L.imageOverlay(imageUrl, imageBounds).addTo(map);
-	  
-	  var imageUrl = 'media/Ever New Cairo.png',
-   	imageBounds = [[29.96082394542264, 31.551824360849114], [29.95878863958161, 31.572030310322205], [29.946888523035046, 31.571582159250166], [29.947827600512134, 31.551560355430034]];
-	L.imageOverlay(imageUrl, imageBounds).addTo(map);
-	  
-	  var imageUrl = 'media/Ever October.png',
-   	imageBounds = [[30.00261057433003, 30.964877735753902], [29.99936753205223, 30.968890630645248], [30.002336587932106, 30.972919406616146],[30.005060786741346, 30.97019297183146]];
-	L.imageOverlay(imageUrl, imageBounds).addTo(map);
-  </script>
-
-<script>
-  function myFun() {
-    map.flyTo([30.002088,30.969116], 15);
-  }
-  </script>
-
-<script>
-  var myImageLayer;
-
-  function myFunction() {
-    var imageUrl = 'media/layout.png';
-    var imageBounds = [[29.994293, 31.574531], [29.933195, 31.521640], [29.921658, 31.583310]];
-
-    if (myImageLayer) {
-      map.removeLayer(myImageLayer);
-      myImageLayer = null;
-    } else {
-      myImageLayer = L.imageOverlay(imageUrl, imageBounds);
-      myImageLayer.addTo(map);
-    }
-  }
+	var baseMaps = {
+		'Satellite': osm,
+		'Street Map': TopPlusOpen_Grey,
+	}
+		var overlayMaps = {
+			'Eagle Eye': map
+		}
 </script>
+  
+<script>function myFun() {map.flyTo([30.002088,30.969116], 15);}</script>
 
 <script>
-  var myImageLayer1;
-
-  function myAction() {
-    var imageUrl = 'media/Surroundingss.jpg';
-    var imageBounds = [[30.023187484365465, 31.527730225468716], [30.02228130251076, 31.61048047448948], [29.948535934252433, 31.60738527709509], [29.9492774586029, 31.528362226556002]];
-
-    if (myImageLayer1) {
-      map.removeLayer(myImageLayer1);
-      myImageLayer1 = null;
-    } else {
-      myImageLayer1 = L.imageOverlay(imageUrl, imageBounds);
-      myImageLayer1.addTo(map);
-    }
-  }
-</script>
-    
-    <script>
-  function addRowHandlers() {
-    var table = document.getElementById("maptable");
-    var rows = table.getElementsByTagName("tr");
-    for (i = 0; i < rows.length; i++) {
-      var currentRow = table.rows[i];
-      var createClickHandler = function(row) {
-        return function() {
-          ///console.log(e);
-          ///console.log($(this).html());
-          ///console.log($(e).html());
-          var lat = row.getElementsByTagName("td")[11].innerHTML;
-          var lon = row.getElementsByTagName("td")[12].innerHTML;
-              map.flyTo([lat,lon], 15, { animate:true, duration:3 } )
-          ///});
-          ///var cell = row.getElementsByTagName("td")[0];
-          ///var id = cell.innerHTML;
-          ///alert("id:" + id);
-        };
-      };
-      currentRow.onclick = createClickHandler(currentRow);
-    }
-  }
+	var myImageLayer;
+	function masterplan() {
+		var imageUrl1 = 'media/layout.png';
+		var imageBounds1 = [[29.994293, 31.574531], [29.933195, 31.521640], [29.921658, 31.583310]];
+		var imageUrl2 = 'media/Ever New Cairo.png';
+		var imageBounds2 = [[29.96082394542264, 31.551824360849114], [29.95878863958161, 31.572030310322205], [29.946888523035046, 31.571582159250166], [29.947827600512134, 31.551560355430034]];
+		var imageUrl3 = 'media/Castle LandMark.png';
+		var imageBounds3 = [[29.97287392352009, 31.711373480696945], [29.97053381500239, 31.715168550377484], [29.9679917154688, 31.712350924705873], [29.970716608032465, 31.709196271401364]];
+		var imageUrl4 = 'media/Ever October.png';
+		var imageBounds4 = [[30.00261057433003, 30.964877735753902], [29.99936753205223, 30.968890630645248], [30.002336587932106, 30.972919406616146],[30.005060786741346, 30.97019297183146]];
+		
+		if (myImageLayer) {
+			map.removeLayer(myImageLayer);
+			myImageLayer = null;
+		} else {
+			myImageLayer = L.layerGroup([
+				L.imageOverlay(imageUrl1, imageBounds1),
+				L.imageOverlay(imageUrl2, imageBounds2),
+				L.imageOverlay(imageUrl3, imageBounds3),
+				L.imageOverlay(imageUrl4, imageBounds4)
+			]);
+			myImageLayer.addTo(map);
+		}
+	}
 </script>
 	
   <script type="text/javascript" src="./google-doc-url.js"></script>
