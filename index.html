@@ -4,9 +4,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="media/favicon.png">
+  <link rel="icon" type="image/png" href="media/MR.png">
 
-  <title>Market Surveying ...</title>
+  <title>Interactive Map ..</title>
 
   <!-- jQuery-->
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
@@ -66,7 +66,7 @@
 
 <body>
 	<script language="javascript">
-<!--hide
+/*<!--hide
 var password;
 var pass1="";
 password=prompt('Password Required','');
@@ -80,7 +80,9 @@ else {
   <div class="loader">Loading...</div>
   <div id="map">
   </div>
-<button id="container" class="btn">Prices Analysis</button><button id="container1" class="btn" onclick="myFunction()">Urban planning</button><button id="container2" class="btn" onclick="myAction()">Master Plans</button>
+<button id="container" class="btn">Prices Analysis</button>
+<button id="container1" class="btn" onclick="myFunction()">Urban planning</button>
+<button id="container2" class="btn" onclick="myAction()">Master Plans</button>
 	
 <table id="maptable" class="display"></table>
 	
@@ -118,14 +120,14 @@ else {
 //Leaflet layer control
 var baseMaps = {
   'Satellite': osm,
-  'Satellity Details': Stadia_AlidadeSatellite,
-  'Cleary Details': TopPlusOpen_Grey,
+  'Satellite Details': Stadia_AlidadeSatellite,
+  'Clear Details': TopPlusOpen_Grey,
   'Clear': Streetmap
 }
 	  var overlayMaps = {
   'Eagle Eye': map
 }
-L.control.layers(baseMaps, overlayMaps).addTo(map);
+L.control.layers(baseMaps, overlayMaps).setPosition('bottomright').addTo(map);
 	  
 	      var imageUrl = 'media/Castle LandMark.png',
    	imageBounds = [[29.97287392352009, 31.711373480696945], [29.97053381500239, 31.715168550377484], [29.9679917154688, 31.712350924705873], [29.970716608032465, 31.709196271401364]];
