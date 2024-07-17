@@ -81,7 +81,7 @@ form {
   transition: 0.8s;
   position: relative;
   overflow: hidden;
-  color: rgb(0, 0, 0);
+  color: #ff0101;
 }
 .btn:hover{
  color: #fff;
