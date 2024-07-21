@@ -7,8 +7,9 @@
   <link rel="icon" type="image/png" href="media\MR.png">
 
   <title>Interactive Map ..</title>
-
+	
   <!-- jQuery-->
+  <script src="Search.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
 
   <!-- Leaflet (CSS and JS) -->
@@ -42,8 +43,8 @@
   <script src="https://unpkg.com/leaflet.markercluster.layersupport@2.0.1/dist/leaflet.markercluster.layersupport.js"></script>
 
   <!-- Leaflet control geocoder -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder@1.13.0/dist/Control.Geocoder.css" />
-  <script src="https://unpkg.com/leaflet-control-geocoder@1.13.0/dist/Control.Geocoder.js"></script>
+  <link rel="stylesheet" href="leaflet-search-master\dist\leaflet-search.src.css" />
+  <script src="leaflet-search-master\dist\leaflet-search.src.js"></script>
 
   <!-- Locate Control -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.72.0/L.Control.Locate.min.css" />
@@ -72,14 +73,13 @@ var pass1="";
 password=prompt('Password Required..','');
 if (password==pass1);
 else {
-  window.location="http://localhost/Cred-main/index.html";
+  window.location="https://nour-rabea.github.io/Cred/";
 }
 -->
 	</script>
 	
   <div class="loader">Loading...</div>
 	<div id="map"></div>
-	
 	<button id="container" class="btn">Prices Analysis</button>
 	<button id="container1" class="btn" onclick="masterplan()">Master Plans</button>
 	
@@ -92,17 +92,38 @@ else {
 		scrollWheelZoom: true,
 		tap: false
 	}).setView([30.02,31.55], 11); // default center is overridden by Google Sheet options and points
-	var osm = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}').addTo(map);
-	var TopPlusOpen_Grey = L.tileLayer('http://sgx.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web_grau/default/WEBMERCATOR/{z}/{y}/{x}.png', {maxZoom: 18});
-
+	    var Esri_WorldGrayCanvas = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 16
+    }).addTo(map);
+    var TopPlusOpen_Grey = L.tileLayer('http://sgx.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web_grau/default/WEBMERCATOR/{z}/{y}/{x}.png', {
+      maxZoom: 18
+    });
 //Leaflet layer control
-	var baseMaps = {
-		'Satellite': osm,
-		'Street Map': TopPlusOpen_Grey,
-	}
-		var overlayMaps = {
-			'Eagle Eye': map
-		}
+    var baseMaps = {
+      'Street Map': Esri_WorldGrayCanvas,
+      'Details Map': TopPlusOpen_Grey,
+    }
+    var overlayMaps = {
+      'Satellite': L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.{ext}', {
+	minZoom: 0,
+	maxZoom: 20,
+	ext: 'jpg'
+})}
+	//Json data search
+const searchLayer = L.geoJSON(Search, {
+  onEachFeature: function(feature, layer) {
+    layer.bindPopup(feature.properties.Project);
+  }
+});
+
+//control search
+const searchControl = new L.Control.Search({
+  layer: searchLayer,
+  zoom: "13",
+  propertyName: 'Project'
+}).setPosition('topright');
+map.addControl(searchControl);
+map.removeLayer(searchLayer);
 </script>
   
 <script>function myFun() {map.flyTo([30.002088,30.969116], 15);}</script>
