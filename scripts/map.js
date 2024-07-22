@@ -190,87 +190,144 @@ $(window).on('load', function() {
         + getSetting('_pointsLegendIcon') + '"></i></span>');
     }
 
-    document.getElementById("container").onclick = displayTable;
+    //* */ Display table with active points if specified
+    var tableVisible = false; // Variable to track table visibility
+    var tableHeight = 40; // Default table height
+    document.getElementById("container").onclick = toggleTable;
     
-    function displayTable() {
-    // Display table with active points if specified
-    var columns = getSetting('_tableColumns').split(',')
-                  .map(Function.prototype.call, String.prototype.trim);
-
-    if (displayTable && columns.length > 1) {
-      tableHeight = trySetting('_tableHeight', 40);
-      if (tableHeight < 10 || tableHeight > 90) {tableHeight = 40;}
-      $('#map').css('height', (100 - tableHeight) + 'vh');
-      map.invalidateSize();
-
-      // Set background (and text) color of the table header
-      var colors = getSetting('_tableHeaderColor').split(',');
-      if (colors[0] != '') {
-        $('table.display').css('background-color', colors[0]);
-        if (colors.length >= 2) {
-          $('table.display').css('color', colors[1]);
-        }
+    function toggleTable() {
+      if (tableVisible) {
+        hideTable();
+        tableVisible = false;
+      } else {
+        showTable();
+        tableVisible = true;
       }
     }
-      // Update table every time the map is moved/zoomed or point layers are toggled
-      map.on('moveend', updateTable);
-      map.on('layeradd', updateTable);
-      map.on('layerremove', updateTable);
-
-      // Clear table data and add only visible markers to it
-      function updateTable() {
-        var pointsVisible = [];
-        for (i in points) {
-          if (map.hasLayer(layers[points[i].Group]) &&
-              map.getBounds().contains(L.latLng(points[i].Latitude, points[i].Longitude))) {
-            pointsVisible.push(points[i]);
+    
+    function showTable() {
+      var columns = getSetting('_tableColumns').split(',')
+      .map(Function.prototype.call, String.prototype.trim);
+      
+      if (columns.length > 1) {
+        tableHeight = trySetting('_tableHeight', 40);
+        if (tableHeight < 10 || tableHeight > 90) { tableHeight = 40; }
+        
+        $('#map').css('height', (100 - tableHeight) + 'vh');
+        map.invalidateSize();
+        
+        var colors = getSetting('_tableHeaderColor').split(',');
+        if (colors[0] !== '') {
+          $('table.display').css('background-color', colors[0]);
+          if (colors.length >= 2) {
+            $('table.display').css('color', colors[1]);
           }
         }
-
-        tableData = pointsToTableData(pointsVisible);
-
-        table.clear();
-        table.rows.add(tableData);
-        table.draw();
       }
+      
+  map.on('moveend', updateTable);
+  map.on('layeradd', updateTable);
+  map.on('layerremove', updateTable);
 
-      // Convert Leaflet marker objects into DataTable array
-      function pointsToTableData(ms) {
-        var data = [];
-        for (i in ms) {
-          var a = [];
-          for (j in columns) {
-            a.push(ms[i][columns[j]]);
-          }
-          data.push(a);
-        }
-        return data;
-      }
-
-      // Transform columns array into array of title objects
-      function generateColumnsArray() {
-        var c = [];
-        for (i in columns) {
-          c.push({title: columns[i]});
-        }
-        return c;
-      }
-
-      // Initialize DataTable
-      var table = $('#maptable').DataTable({
-        paging: false,
-        scrollCollapse: true,
-        scrollY: 'calc(' + tableHeight + 'vh - 40px)',
-        info: false,
-        searching: false,
-        columns: generateColumnsArray(),
-      });
-    }
-
-    completePoints = true;
-    return group;
+  // Initialize DataTable
+  var table = $('#maptable').DataTable({
+    paging: false,
+    scrollCollapse: true,
+    scrollY: 'calc(' + tableHeight + 'vh - 40px)',
+    info: false,
+    searching: false,
+    columns: generateColumnsArray(),
+  });
+  
+  // Add click event to table rows
+  $('#maptable tbody').on('click', 'tr', function() {
+    
+    // Get the data for the clicked row
+    var rowData = table.row(this).data(); // Get the data for the clicked row
+    var point = rowData[rowData.length - 1]; // Assuming the last element is the full point object
+    
+    // Get latitude and longitude from the point object
+    var lat = point['Latitude'];
+    var lon = point['Longitude'];
+    
+    // Check if the lat and lon are valid numbers
+    if (!isNaN(lat) && !isNaN(lon)) {
+    // Fly to the coordinates
+    map.flyTo([lat, lon], 15, { animate: false, duration: 2 });
+    // Draw a circle at the location
+    drawCircle(lat, lon);
+  } else {
+    alert("Invalid coordinates.");
   }
+});
 
+function drawCircle(lat, lon) {
+  // Define the circle options
+  var circleOptions = {
+      color: 'black',      // Circle color
+      fillColor: '#000',   // Fill color
+      fillOpacity: 0.3,    // Fill opacity
+      radius: 150          // Circle radius in meters
+      };
+
+  // Create the circle
+  var circle = L.circle([lat, lon], circleOptions).addTo(map);
+
+  // Automatically remove the circle after 3 seconds
+  setTimeout(function() {
+    map.removeLayer(circle);
+  }, 4000); // 3000 milliseconds = 3 seconds
+
+  // Return the circle object (optional)
+  return circle;
+}
+
+  function updateTable() {
+    var pointsVisible = [];
+    for (var i in points) {
+      if (map.hasLayer(layers[points[i].Group]) &&
+          map.getBounds().contains(L.latLng(points[i].Latitude, points[i].Longitude))) {
+        pointsVisible.push(points[i]);
+      }
+    }
+  
+    tableData = pointsToTableData(pointsVisible);
+    table.clear();
+    table.rows.add(tableData);
+    table.draw();
+  }
+  
+  function pointsToTableData(ms) {
+    var data = [];
+    for (var i in ms) {
+        var a = [];
+        for (var j in columns) {
+            a.push(ms[i][columns[j]]); // Push only the visible columns
+        }
+        a.push(ms[i]); // Push the entire point object to access later
+        data.push(a);
+    }
+    return data;
+}
+  
+  function generateColumnsArray() {
+    var c = [];
+    for (var i in columns) {
+      c.push({ title: columns[i] });
+    }
+    return c;
+  }
+}
+
+function hideTable() {
+  // Code to hide the table or clear its content if needed
+  $('#maptable').DataTable().clear().draw();
+}
+
+completePoints = true;
+return group;
+}
+  
   var polygon = 0; // current active polygon
   var layer = 0; // number representing current layer among layers in legend
 
