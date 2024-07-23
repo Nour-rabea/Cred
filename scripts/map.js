@@ -193,6 +193,8 @@ $(window).on('load', function() {
     //* */ Display table with active points if specified
     var tableVisible = false; // Variable to track table visibility
     var tableHeight = 40; // Default table height
+    var table; // Variable to hold the DataTable instance
+
     document.getElementById("container").onclick = toggleTable;
     
     function toggleTable() {
@@ -223,17 +225,9 @@ $(window).on('load', function() {
             $('table.display').css('color', colors[1]);
           }
         }
-    
-        // Show the DataTable
-        $('#maptable').show(); // Make sure the DataTable is visible
-      }
-    
-      map.on('moveend', updateTable);
-      map.on('layeradd', updateTable);
-      map.on('layerremove', updateTable);
-    
       // Initialize DataTable
-      var table = $('#maptable').DataTable({
+      if (!$.fn.DataTable.isDataTable('#maptable')) {
+        table = $('#maptable').DataTable({
         paging: false,
         scrollCollapse: true,
         scrollY: 'calc(' + tableHeight + 'vh - 40px)',
@@ -241,30 +235,29 @@ $(window).on('load', function() {
         searching: false,
         columns: generateColumnsArray(),
       });
+
+            // Show the DataTable
+            $('#maptable').show(); // Make sure the DataTable is visible
+            // Call updateTable to populate the DataTable with current points
+            updateTable();
+            map.on('moveend', updateTable);
+            map.on('layeradd', updateTable);
+            map.on('layerremove', updateTable);
     
       // Add click event to table rows
       $('#maptable tbody').on('click', 'tr', function() {
-        // Get the data for the clicked row
         var rowData = table.row(this).data(); // Get the data for the clicked row
         var point = rowData[rowData.length - 1]; // Assuming the last element is the full point object
-    
-        // Get latitude and longitude from the point object
         var lat = point['Latitude'];
         var lon = point['Longitude'];
-    
-        // Check if the lat and lon are valid numbers
-        if (!isNaN(lat) && !isNaN(lon)) {
-          // Fly to the coordinates
-          map.flyTo([lat, lon], 15, { animate: false, duration: 2 });
-          // Draw a circle at the location
-          drawCircle(lat, lon);
+        if (!isNaN(lat) && !isNaN(lon)) { // Check if the lat and lon are valid numbers
+          map.flyTo([lat, lon], 15, { animate: false, duration: 2 }); // Fly to the coordinates
+          drawCircle(lat, lon); // Draw a circle at the location
         } else {
           alert("Invalid coordinates.");
         }
       });
-    
-      // Call updateTable to populate the DataTable with current points
-      updateTable();
+    }
 
 function drawCircle(lat, lon) {
   // Define the circle options
@@ -308,7 +301,7 @@ function drawCircle(lat, lon) {
     }
     return data;
 }
-  
+
   function generateColumnsArray() {
     var c = [];
     for (var i in columns) {
@@ -316,11 +309,14 @@ function drawCircle(lat, lon) {
     }
     return c;
   }
-}
+}}
 
 function hideTable() {
-  // Clear the DataTable
-  $('#maptable').DataTable().clear().draw();
+  // Check if the DataTable is initialized
+  if ($.fn.DataTable.isDataTable('#maptable')) {
+    // Destroy the DataTable instance before hiding
+    $('#maptable').DataTable().clear().destroy();
+  }
 
   // Hide the entire table element, including the header
   $('#maptable').hide(); // Hide the DataTable
@@ -334,10 +330,10 @@ function hideTable() {
 completePoints = true;
 return group;
 }
-  
+
   var polygon = 0; // current active polygon
   var layer = 0; // number representing current layer among layers in legend
-
+  
   /**
    * Store bucket info for Polygons
    */
@@ -645,7 +641,7 @@ return group;
 
     layer.bindPopup(info);
 
-    
+
     // Add polygon label if needed
     if (!allTextLabels[polygon]) { allTextLabels.push([]) }
 
@@ -688,7 +684,7 @@ return group;
       layers = determineLayers(points);
       group = mapPoints(points, layers);
     } else {
-      completePoints = true;
+      completePoints = false;
     }
 
     centerAndZoomMap(group);
