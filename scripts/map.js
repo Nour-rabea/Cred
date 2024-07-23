@@ -164,7 +164,7 @@ $(window).on('load', function() {
 
         for (i in layers) {
           multilayerClusterSupport.checkIn(layers[i]);
-          layers[i].addTo(map);
+          layers[i];
         }
       }
 
@@ -891,7 +891,7 @@ return group;
             color: (p[index]['Color'] == '') ? 'grey' : p[index]['Color'],
             weight: trySetting('_polylinesWeight', 2),
             pane: 'shadowPane'
-          }).addTo(map);
+          });
 
           if (p[index]['Description'] && p[index]['Description'] != '') {
             line.bindPopup(p[index]['Description']);
