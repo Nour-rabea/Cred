@@ -107,7 +107,11 @@ else {
       'Satellite': L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.{ext}', {
 	minZoom: 0,
 	maxZoom: 20,
-	ext: 'jpg'
+	ext: 'jpg',
+  apiKey: trySetting('_tileProviderApiKey', ''),
+  apikey: trySetting('_tileProviderApiKey', ''),
+  key: trySetting('_tileProviderApiKey', ''),
+  accessToken: trySetting('_tileProviderApiKey', '')
 })}
 	//Json data search
 const searchLayer = L.geoJSON(Search, {
