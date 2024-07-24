@@ -7,8 +7,6 @@
   <link rel="icon" type="image/png" href="media\MR.png">
 
   <title>Interactive Map ..</title>
-
-  <script src="https://api.stadiamaps.com/tz/lookup/v1?lat=59.43696&lng=24.75357&api_key=78c8ebd3-9956-4347-9d7d-cdc87413fc59"defer></script>
 	
   <!-- jQuery-->
   <script src="Search.js"></script>
@@ -105,13 +103,13 @@ else {
       'Street Map': Esri_WorldGrayCanvas,
       'Details Map': TopPlusOpen_Grey,
     }
+const apiKey = '78c8ebd3-9956-4347-9d7d-cdc87413fc59';
     var overlayMaps = {
       'Satellite': L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.{ext}', {
 	minZoom: 0,
 	maxZoom: 20,
-	ext: 'jpg',
-        Authorization: 'Stadia-Auth 78c8ebd3-9956-4347-9d7d-cdc87413fc59'
-}
+	ext: 'jpg'
+      }
 )}
 	//Json data search
 const searchLayer = L.geoJSON(Search, {
