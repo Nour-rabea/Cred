@@ -674,7 +674,7 @@ return group;
     createDocumentSettings(options);
 
     ///document.title = getSetting('_mapTitle');
-    document.title = '5';
+    document.title = 'Market Analysis';
     addBaseMap();
 
     // Add point markers to the map
