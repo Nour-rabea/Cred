@@ -803,7 +803,10 @@ return group;
         // Open intro popup window in the center of the map
         if (getSetting('_introPopupText') != '') {
           initIntroPopup(getSetting('_introPopupText'), map.getCenter());
-        };
+          setTimeout(function() {
+            map.closePopup();
+          }, 7000);
+        }
 
         togglePolygonLabels();
       } else {
