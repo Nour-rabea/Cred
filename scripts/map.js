@@ -134,7 +134,7 @@ $(window).on('load', function() {
           point['Website'] + '</b><br>' +
           point['Brochure'] + '</b><br>' +
           point['Head Offices'] + '</b><br>' +
-          point['Area'] + '</b> Acre <br>');
+          point['Area'] + '</b><br>');
           //point['BUA'])
         ///.bindTooltip(point['Text'],{permanent: true, direction: 'right'});
 
