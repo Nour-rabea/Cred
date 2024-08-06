@@ -42,6 +42,10 @@
   <!-- Leaflet Markercluster layer support -->
   <script src="https://unpkg.com/leaflet.markercluster.layersupport@2.0.1/dist/leaflet.markercluster.layersupport.js"></script>
 
+  <!-- Leaflet Ruler-->
+  <link rel="stylesheet" href="leaflet-ruler-master\src\leaflet-ruler.css" />
+  <script src="leaflet-ruler-master\src\leaflet-ruler.js"></script> 
+
   <!-- Leaflet control geocoder -->
   <link rel="stylesheet" href="leaflet-search-master\dist\leaflet-search.src.css" />
   <script src="leaflet-search-master\dist\leaflet-search.src.js"></script>
@@ -126,6 +130,18 @@ const searchControl = new L.Control.Search({
 }).setPosition('topright');
 map.addControl(searchControl);
 map.removeLayer(searchLayer);
+</script>
+
+<script>
+//ruler
+var options = {
+    position: 'bottomright',
+    lengthUnit: {
+        display: 'km',
+        label: 'Distance:',
+        decimal: 2,
+    },
+};
 </script>
   
 <script>function myFun() {map.flyTo([30.002088,30.969116], 15);}</script>
