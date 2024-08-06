@@ -251,7 +251,7 @@ $(window).on('load', function() {
         var lat = point['Latitude'];
         var lon = point['Longitude'];
         if (!isNaN(lat) && !isNaN(lon)) { // Check if the lat and lon are valid numbers
-          map.flyTo([lat, lon], 15, { animate: false, duration: 2 }); // Fly to the coordinates
+          map.flyTo([lat, lon], 15, { animate: true, duration: 3 }); // Fly to the coordinates
           drawCircle(lat, lon); // Draw a circle at the location
         } else {
           alert("Invalid coordinates.");
