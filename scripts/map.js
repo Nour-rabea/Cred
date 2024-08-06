@@ -1004,6 +1004,7 @@ return group;
     }).addTo(map);
     L.control.attribution().setPosition('bottomright').addTo(map);
     L.control.layers(baseMaps, overlayMaps).setPosition('bottomright').addTo(map);
+    L.control.ruler(options).addTo(map);
   }
 
   /**
