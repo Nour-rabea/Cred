@@ -130,8 +130,8 @@ right: 20px;
 right: 3.5%;
 top: 1%;
 padding: 0px;
-padding-right: 20px;
-padding-left: 20px;
+padding-right: 21px;
+padding-left: 21px;
 padding-top: 2px;
 padding-bottom: 3px;
 border-color: black;
@@ -139,6 +139,24 @@ z-index: 400;
 text-align: left;
 right: 0.5%;
 top: +5%;
+}
+
+#container2 {
+  position: absolute;
+  top: 0px;
+  right: 20px;
+  right: 3.5%;
+  top: 1%;
+  padding: 0px;
+  padding-right: 11px;
+  padding-left: 11px;
+  padding-top: 2px;
+  padding-bottom: 3px;
+  border-color: black;
+  z-index: 400;
+  text-align: left;
+  right: 0.5%;
+  top: +10.7%;
 }
 
 /* Custom CSS to position the search control in the middle right*/
@@ -162,19 +180,6 @@ top: +5%;
     background-color: rgb(255, 255, 255);
     color: white;
   }
-
-#container2 {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  right: 3.5%;
-  top: 10%;
-  padding: 10px;
-  z-index: 400;
-  text-align: left;
-  right: 0.5%;
-  top: +10%;
-}
 
 .polygons-legend-scale {
   margin-top: 4px;
