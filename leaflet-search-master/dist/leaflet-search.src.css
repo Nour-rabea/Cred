@@ -15,12 +15,12 @@
  * 
  */
  
-.leaflet-container .leaflet-control-search {
+ .leaflet-container .leaflet-control-search {
 	position:relative;
 	float:left;
 	background:#fff;
 	color:#1978cf;
-	border: 2px solid rgba(0,0,0,0.2);
+	border: 3px solid rgba(0,0,0,0.2);
 	background-clip: padding-box;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -28,7 +28,7 @@
 	background-color: rgba(255, 255, 255, 0.8);
 	z-index:1000;	
 	margin-left: 10px;
-	margin-top: 10px;
+	margin-top: 50px;
 }
 .leaflet-control-search.search-exp {/*expanded*/
 	background: #fff;
@@ -95,8 +95,8 @@
 	float:left;
 	list-style: none;
 	padding-left: 0;
-	min-width:120px;
-	max-height:122px;
+	min-width:150px;
+	max-height:192px;
 	box-shadow: 1px 1px 6px rgba(0,0,0,0.4);
 	background-color: rgba(0, 0, 0, 0.25);
 	z-index:1010;
@@ -132,5 +132,3 @@
 	font-weight:bold;
 	border-radius:.25em;
 }
-
-
