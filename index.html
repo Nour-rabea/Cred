@@ -86,8 +86,10 @@ else {
 	<div id="map"></div>
 	<button id="container" class="btn">Prices Analysis</button>
 	<button id="container1" class="btn" onclick="masterplan()">Master Plans</button>
-	
-	<table id="maptable" class="display"></table>
+  <button id="container2" class="btn" onclick="threshold()">Thershold 5km</button>
+  
+  <table id="maptable" class="display"></table>
+
 	
 <script type="text/javascript">
 	var map = L.map('map', {
@@ -115,7 +117,8 @@ const apiKey = 'Stadia-Auth 78c8ebd3-9956-4347-9d7d-cdc87413fc59';
 	ext: 'jpg'
       }
 )}
-	//Json data search
+
+//Json data search
 const searchLayer = L.geoJSON(Search, {
   onEachFeature: function(feature, layer) {
     layer.bindPopup(feature.properties.Project);
@@ -143,9 +146,8 @@ var options = {
     },
 };
 </script>
-  
-<script>function myFun() {map.flyTo([30.002088,30.969116], 15);}</script>
 
+  
 <script>
 	var myImageLayer;
 	function masterplan() {
@@ -172,6 +174,66 @@ var options = {
 		}
 	}
 </script>
+
+<script>
+  var circle1, circle2, circle3;
+  var circlesVisible = false;
+  
+  function threshold() {
+      if (circlesVisible) {
+          // إزالة الدوائر إذا كانت موجودة
+          map.removeLayer(circle1);
+          map.removeLayer(circle2);
+          map.removeLayer(circle3);
+          circlesVisible = false;
+      } else {
+          // إنشاء الدوائر
+          circle1 = L.circle([29.955341154793615, 31.559919417160515], {
+              color: 'red',        // لون الحافة
+              fillOpacity: 0.02,   // تعبئة شفافة (بلا لون)
+              radius: 5000         // نصف القطر بالأمتار
+          }).addTo(map);
+  
+          circle2 = L.circle([30.001515911679736, 30.969413026276538], {
+              color: 'red',
+              fillOpacity: 0.02,
+              radius: 5000
+          }).addTo(map);
+  
+          circle3 = L.circle([29.970531432764254, 31.71280168072229], {
+              color: 'red',
+              fillOpacity: 0.02,
+              radius: 5000
+          }).addTo(map);
+  
+          // دالة لتغيير الشفافية (لإعطاء تأثير الوميض على الحافة فقط)
+          function animateCircle(circle) {
+              var opacity = 1;
+              var increasing = false;
+  
+              setInterval(function() {
+                  if (increasing) {
+                      opacity += 0.1;
+                      if (opacity >= 1) increasing = false;
+                  } else {
+                      opacity -= 0.1;
+                      if (opacity <= 0) increasing = true;
+                  }
+  
+                  circle.setStyle({ opacity: opacity });
+              }, 50);
+          }
+  
+          // بدء التحريك
+          animateCircle(circle1);
+          animateCircle(circle2);
+          animateCircle(circle3);
+  
+          circlesVisible = true;
+      }
+  }
+  </script>
+  
 	
   <script type="text/javascript" src="./google-doc-url.js"></script>
   <script type="text/javascript" src="./scripts/constants.js"></script>
