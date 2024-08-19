@@ -183,15 +183,7 @@ top: +5%;
 
 /* Customize the default tooltip appearance */
 .custom-tooltip {
-  position: relative;
-}
-
-.custom-tooltip:hover::after {
-  content: attr(data-title); /* Use data-title instead of title */
-  position: absolute;
-  bottom: 0%; /* Show tooltip above the element */
-  left: 70%;
-  transform: translateX(-50%);
+  position: absolute; /* Use absolute positioning to follow the mouse */
   background-color: red; /* Background color of the tooltip */
   color: white; /* Text color of the tooltip */
   padding: 5px;
@@ -199,6 +191,7 @@ top: +5%;
   white-space: nowrap;
   z-index: 1000;
   opacity: 0.9;
+  pointer-events: none; /* Ensure the tooltip doesn't interfere with mouse events */
 }
 
 .polygons-legend-scale {
