@@ -21,7 +21,6 @@ $(window).on('load', function() {
     });
   }
 
-
   /**
    * Sets the map view so that all markers are visible, or
    * to specified (lat, lon) and zoom if all three are specified
@@ -59,7 +58,6 @@ $(window).on('load', function() {
 
     map.setView(center, zoom);
   }
-
 
   /**
    * Given a collection of points, determines the layers based on 'Group'
@@ -134,9 +132,8 @@ $(window).on('load', function() {
           point['Website'] + '</b><br>' +
           point['Brochure'] + '</b><br>' +
           point['Head Offices'] + '</b><br>' +
-          point['Area'] + '</b><br>');
-          //point['BUA'])
-        ///.bindTooltip(point['Text'],{permanent: true, direction: 'right'});
+          point['Area'] + '</b> Acre <br>')
+          .bindTooltip(point['Developer'] + ' - ' + point['Project'], {permanent: false, direction: 'right'});
 
         if (layers !== undefined && layers.length !== 1) {
           marker.addTo(layers[point.Group]);
@@ -238,21 +235,32 @@ $(window).on('load', function() {
 
             // Show the DataTable
             $('#maptable').show(); // Make sure the DataTable is visible
-            // Call updateTable to populate the DataTable with current points
-            updateTable();
+            updateTable();// Call updateTable to populate the DataTable with current points
             map.on('moveend', updateTable);
             map.on('layeradd', updateTable);
             map.on('layerremove', updateTable);
         
-     // Add mouseover event to table cells
-        $('#maptable tbody').on('mouseover', 'td', function() {
-          var rowData = table.row(this).data(); // Get the data for the row after sorting/filtering
-          var point = rowData[rowData.length - 1]; // Assuming the last element is the full point object
-     // Update the tooltip content dynamically based on the current row's data
-          var tooltipContent = point['Analysis SQM.P']; // Content to show in the tooltip
-          $(this).attr('data-title', tooltipContent).addClass('custom-tooltip'); // Use data-title to store tooltip content
-          $(this).removeAttr('title'); // Remove the default title attribute to prevent the browser tooltip
-        });
+// Add mouseover event to table cells
+$('#maptable tbody').on('mouseover', 'td', function() {
+  var rowData = table.row(this).data(); // Get the data for the row after sorting/filtering
+  var point = rowData[rowData.length - 1]; // Assuming the last element is the full point object
+  // Update the tooltip content dynamically based on the current row's data
+  var tooltipContent = point['Analysis SQM.P']; // Content to show in the tooltip  
+  // Remove any existing tooltip to prevent duplication
+  $('.custom-tooltip').remove();
+  // Create the tooltip element
+  var tooltip = $('<div class="custom-tooltip"></div>').text(tooltipContent).appendTo('body');
+  // Move the tooltip with the mouse
+  $(this).on('mousemove', function(e) {
+    tooltip.css({
+      top: e.pageY + 10 + 'px', // Positioning the tooltip below the mouse pointer
+      left: e.pageX + 10 + 'px' // Positioning the tooltip to the right of the mouse pointer
+    });
+  });
+}).on('mouseout', function() {
+  // Remove the tooltip when the mouse leaves the cell
+  $('.custom-tooltip').remove();
+});
     
       // Add click event to table rows
       $('#maptable tbody').on('click', 'tr', function() {
