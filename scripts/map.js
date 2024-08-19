@@ -243,6 +243,16 @@ $(window).on('load', function() {
             map.on('moveend', updateTable);
             map.on('layeradd', updateTable);
             map.on('layerremove', updateTable);
+        
+     // Add mouseover event to table cells
+        $('#maptable tbody').on('mouseover', 'td', function() {
+          var rowData = table.row(this).data(); // Get the data for the row after sorting/filtering
+          var point = rowData[rowData.length - 1]; // Assuming the last element is the full point object
+     // Update the tooltip content dynamically based on the current row's data
+          var tooltipContent = point['Analysis SQM.P']; // Content to show in the tooltip
+          $(this).attr('data-title', tooltipContent).addClass('custom-tooltip'); // Use data-title to store tooltip content
+          $(this).removeAttr('title'); // Remove the default title attribute to prevent the browser tooltip
+        });
     
       // Add click event to table rows
       $('#maptable tbody').on('click', 'tr', function() {
