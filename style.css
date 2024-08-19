@@ -181,6 +181,26 @@ top: +5%;
     color: white;
   }
 
+/* Customize the default tooltip appearance */
+.custom-tooltip {
+  position: relative;
+}
+
+.custom-tooltip:hover::after {
+  content: attr(data-title); /* Use data-title instead of title */
+  position: absolute;
+  bottom: 0%; /* Show tooltip above the element */
+  left: 70%;
+  transform: translateX(-50%);
+  background-color: red; /* Background color of the tooltip */
+  color: white; /* Text color of the tooltip */
+  padding: 5px;
+  border-radius: 5px;
+  white-space: nowrap;
+  z-index: 1000;
+  opacity: 0.9;
+}
+
 .polygons-legend-scale {
   margin-top: 4px;
   padding-top: 7px;
@@ -362,11 +382,11 @@ div.dataTables_scrollBody {
 }
 
 div.dataTables_scrollHead {
-  color: #eee !important;
+  color: #7a7676 !important;
 }
 
 .dataTable * {
-  font-family: "Helvetica Neue", el messiri;
+  font-family: 'Times New Roman', serif;
   border: 0 !important;
 }
 
@@ -376,7 +396,7 @@ div.dataTables_scrollHead table.display {
 }
 
 select {
-  font-size: 1.2em;
+  font-size: 1.0em;
   font-weight: bold;
 }
 
