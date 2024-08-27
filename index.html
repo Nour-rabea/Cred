@@ -134,6 +134,20 @@ var marker2 = L.marker([29.97019949360933, 31.711242368543274], { icon: redIcon 
 var marker3 = L.marker([30.00273665819171, 30.968602517717347], { icon: redIcon })
 .bindTooltip("<b>" + "Ever" + '</b><br>' +"Cred Development").addTo(map);
 
+	// وظيفة لإخفاء وإظهار العلامات بناءً على مستوى التكبير
+map.on('zoomend', function() {
+    var currentZoom = map.getZoom();
+    if (currentZoom > 14) {
+        map.removeLayer(marker1);
+        map.removeLayer(marker2);
+        map.removeLayer(marker3);
+    } else {
+        map.addLayer(marker1);
+        map.addLayer(marker2);
+        map.addLayer(marker3);
+    }
+  });
+
 //Json data search
 const searchLayer = L.geoJSON(Search, {
   onEachFeature: function(feature, layer) {
