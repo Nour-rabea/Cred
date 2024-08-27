@@ -118,6 +118,22 @@ const apiKey = 'Stadia-Auth 525e758f-eac9-4cbd-9714-8336e00d0173';
       }
 )}
 
+
+var redIcon = L.icon({
+    iconUrl: 'media/home icon.png', // استبدل هذا الرابط برابط أيقونة حمراء
+    iconSize: [40, 62], // حجم الأيقونة
+    iconAnchor: [12, 41], // النقطة التي تشير إلى موقع الـ Marker
+    popupAnchor: [1, -34], // موقع ظهور البالون المنبثق
+    shadowSize: [41, 41] // حجم الظل
+});
+
+var marker1 = L.marker([29.95529311152194, 31.56046910936151], { icon: redIcon })
+.bindTooltip("<b>" + "Ever New Cairo" + '</b><br>' +"Cred Development").addTo(map);
+var marker2 = L.marker([29.97019949360933, 31.711242368543274], { icon: redIcon })
+.bindTooltip("<b>" + "Castle Landmark" + '</b><br>' +"Cred Development").addTo(map);
+var marker3 = L.marker([30.00273665819171, 30.968602517717347], { icon: redIcon })
+.bindTooltip("<b>" + "Ever" + '</b><br>' +"Cred Development").addTo(map);
+
 //Json data search
 const searchLayer = L.geoJSON(Search, {
   onEachFeature: function(feature, layer) {
