@@ -73,7 +73,7 @@
 	<script language="javascript">
 //<!--hide
 //var password;
-//var pass1="";
+//var pass1="16533";
 //password=prompt('Password Required..','');
 //if (password==pass1);
 //else {
@@ -90,6 +90,10 @@
   
   <table id="maptable" class="display"></table>
 
+  <button id="drawButton" style="position: fixed; top: 620px; right: 9px; z-index: 1000; padding: 5px 10px; background-color: #2e4053; color: white; border: bold; border-radius: 5px; cursor: pointer;">
+  Draw
+</button>
+
 	
 <script type="text/javascript">
 	var map = L.map('map', {
@@ -98,19 +102,21 @@
 		scrollWheelZoom: true,
 		tap: false
 	}).setView([30.02,31.55], 11); // default center is overridden by Google Sheet options and points
-	    var Esri_WorldGrayCanvas = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-      maxZoom: 16
-    }).addTo(map);
+    var OpenStreetMap_Mapnik = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+});
     var TopPlusOpen_Grey = L.tileLayer('http://sgx.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web_grau/default/WEBMERCATOR/{z}/{y}/{x}.png', {
-      maxZoom: 18
+      maxZoom: 19
     });
 //Leaflet layer control
     var baseMaps = {
-      'Street Map': Esri_WorldGrayCanvas,
       'Details Map': TopPlusOpen_Grey,
+      'Colored Map': OpenStreetMap_Mapnik,
     }
     var overlayMaps = {
   'Satellite': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 19,
 	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
 })
     }
@@ -123,7 +129,7 @@
 
 var redIcon = L.icon({
     iconUrl: 'media/home icon.png', // استبدل هذا الرابط برابط أيقونة حمراء
-    iconSize: [40, 62], // حجم الأيقونة
+    iconSize: [22, 32], // حجم الأيقونة
     iconAnchor: [12, 41], // النقطة التي تشير إلى موقع الـ Marker
     popupAnchor: [1, -34], // موقع ظهور البالون المنبثق
     shadowSize: [41, 41] // حجم الظل
@@ -177,6 +183,74 @@ var options = {
         decimal: 2,
     },
 };
+
+      const drawButton = document.getElementById("drawButton");
+  let isDrawing = false;
+  let isDrawingMode = false;
+  let drawnLines = [];
+  let currentLine = [];
+  const drawLayer = L.layerGroup().addTo(map);
+
+  function redrawLines() {
+    drawLayer.clearLayers();
+    for (const line of drawnLines) {
+      L.polyline(line, { color: 'red', weight: 3 }).addTo(drawLayer);
+    }
+  }
+
+  drawButton.addEventListener("click", () => {
+    if (isDrawingMode) {
+      // الضغط الثاني على الزر ➜ مسح الرسومات والخروج من وضع الرسم
+      isDrawingMode = false;
+      drawButton.style.backgroundColor = "#2e4053";
+      map.dragging.enable();
+      drawnLines = [];
+      drawLayer.clearLayers();
+    } else {
+      // بدء الرسم ➜ تعطيل تحريك الخريطة
+      isDrawingMode = true;
+      drawButton.style.backgroundColor = "#099096";
+      map.dragging.disable();
+    }
+  });
+
+  // زر ESC لإيقاف وضع الرسم فقط
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && isDrawingMode) {
+      isDrawingMode = false;
+      drawButton.style.backgroundColor = "#2e4053";
+      map.dragging.enable();
+    }
+  });
+
+  // بدء السحب للرسم
+  map.on("mousedown", (e) => {
+    if (!isDrawingMode) return;
+    isDrawing = true;
+    currentLine = [e.latlng];
+  });
+
+  // السحب المستمر
+  map.on("mousemove", (e) => {
+    if (!isDrawingMode || !isDrawing) return;
+    currentLine.push(e.latlng);
+    redrawLines();
+    L.polyline(currentLine, { color: 'red', weight: 3 }).addTo(drawLayer);
+  });
+
+  // إنهاء السحب
+  map.on("mouseup", () => {
+    if (!isDrawingMode || !isDrawing) return;
+    isDrawing = false;
+    drawnLines.push([...currentLine]);
+    currentLine = [];
+    redrawLines();
+  });
+
+  // تحديث الرسم عند تحريك أو تكبير الخريطة
+  map.on("moveend zoomend", () => {
+    redrawLines();
+  });
 </script>
 
   
