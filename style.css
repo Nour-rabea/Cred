@@ -160,26 +160,29 @@ top: +5%;
 }
 
 /* Custom CSS to position the search control in the middle right*/
-.leaflet-control-search {
-      position: absolute;
-      top: 50%; /* Center vertically */
-      right: 5px; /* Adjust this value based on your layout */
-      transform: translateY(235%); /* Adjust the vertical position */
-  }
-  .leaflet-control-search input {
-    width: 300px; /* Set a specific width */
-    height: 40px; /* Adjust height */
-    font-size: 20px; /* Increase font size */
-    padding: 2px; /* Increase padding */
-    color: rgb(0, 0, 0);
-  }
-  .leaflet-control-search .search-button {
-    height: 30px; /* Match the height of the input */
-    font-size: 30px; /* Increase button font size */
-    padding: 0px 4px; /* Adjust button padding */
-    background-color: rgb(255, 255, 255);
-    color: white;
-  }
+.leaflet-bottom.leaflet-right .leaflet-control-search {
+  margin-bottom: 10px; /* Space above the layer control and ruler */
+  background: #000000; /* Match the style of other controls */
+  color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 1px 5px rgba(20, 0, 255, 0); /* Match .leaflet-control-custom */
+  z-index: 1001; /* Ensure it appears above other controls */
+}
+.leaflet-control-search input {
+  width: 200px; /* Adjusted width for better fit */
+  height: 30px; /* Match the height of other controls */
+  font-size: 16px; /* Slightly smaller font for consistency */
+  padding: 2px;
+  color: rgb(0, 0, 0);
+}
+.leaflet-control-search .search-button {
+  height: 30px; /* Match input height */
+  font-size: 20px; /* Slightly smaller for consistency */
+  padding: 0px 4px;
+  background-color: #000000; /* Match button background */
+  color: #ffffff; /* White icon */
+  border-radius: 5px; /* Match other controls */
+}
 
 /* Customize the default tooltip appearance */
 .custom-tooltip {
