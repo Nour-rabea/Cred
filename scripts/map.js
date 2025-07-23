@@ -723,52 +723,8 @@ return group;
       completePolygons = true;
     }
 
-    // Add Nominatim Search control
-    if (getSetting('_mapSearch') !== 'off') {
-      var geocoder = L.Control.geocoder({
-        expand: 'click',
-        position: getSetting('_mapSearch'),
-        
-        geocoder: L.Control.Geocoder.nominatim({
-          geocodingQueryParams: {
-            viewbox: '',  // by default, viewbox is empty
-            bounded: 1,
-          }
-        }),
-      }).addTo(map);
 
-      function updateGeocoderBounds() {
-        var bounds = map.getBounds();
-        geocoder.options.geocoder.options.geocodingQueryParams.viewbox = [
-            bounds._southWest.lng, bounds._southWest.lat,
-            bounds._northEast.lng, bounds._northEast.lat
-          ].join(',');
-      }
-
-      // Update search viewbox coordinates every time the map moves
-      map.on('moveend', updateGeocoderBounds);
-    }
-
-    // Add location control
-    if (getSetting('_mapMyLocation') !== 'off') {
-      var locationControl = L.control.locate({
-        keepCurrentZoomLevel: true,
-        returnToPrevBounds: true,
-        position: getSetting('_mapMyLocation')
-      }).addTo(map);
-    }
-
-    // Add zoom control
-    if (getSetting('_mapZoom') !== 'off') {
-      L.control.zoom({position: getSetting('_mapZoom')}).addTo(map);
-    }
-
-    map.on('zoomend', function() {
-      togglePolygonLabels();
-    });
-
-    addTitle();
-
+    
     // Change Map attribution to include author's info + urls
     changeAttribution();
 
@@ -1012,10 +968,8 @@ return group;
     $('.leaflet-control-attribution')[0].innerHTML = credit;
   }
 
+  /*Loads the basemap and adds it to the map*/
 
-  /**
-   * Loads the basemap and adds it to the map
-   */
     function addBaseMap() {
     var basemap = trySetting('_tileProvider', 'Esri.WorldImagery');
     L.tileLayer.provider(basemap, {
@@ -1024,6 +978,35 @@ return group;
     L.control.attribution().setPosition('bottomright').addTo(map);
     L.control.layers(baseMaps, overlayMaps).setPosition('bottomright').addTo(map);
     L.control.ruler(options).addTo(map);
+
+        // Add location control
+    if (getSetting('_mapMyLocation') !== 'off') {
+      var locationControl = L.control.locate({
+        keepCurrentZoomLevel: true,
+        returnToPrevBounds: true,
+        position: getSetting('_mapMyLocation')
+      }).addTo(map);
+    }
+
+    // Add zoom control
+    if (getSetting('_mapZoom') !== 'off') {
+      L.control.zoom({position: getSetting('_mapZoom')}).addTo(map);
+    }
+
+    map.on('zoomend', function() {
+      togglePolygonLabels();
+    });
+
+    addTitle();
+    
+    //control search
+const searchControl = new L.Control.Search({
+  layer: searchLayer,
+  zoom: "13",
+  propertyName: 'Project'
+}).setPosition('bottomright');
+map.addControl(searchControl);
+map.removeLayer(searchLayer);
   }
 
   /**
