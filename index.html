@@ -161,17 +161,6 @@ const searchLayer = L.geoJSON(Search, {
   }
 });
 
-//control search
-const searchControl = new L.Control.Search({
-  layer: searchLayer,
-  zoom: "13",
-  propertyName: 'Project'
-}).setPosition('bottomright');
-map.addControl(searchControl);
-map.removeLayer(searchLayer);
-</script>
-
-<script>
 //ruler
 var options = {
     position: 'bottomright',
