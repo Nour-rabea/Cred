@@ -14,7 +14,7 @@
   background-repeat: no-repeat;
   background-position: center;
   background-image: url("../dist/icon-colored.png");
-  border-color: chartreuse !important;
+  border-color: rgb(255, 0, 0) !important;
 }
 .leaflet-bar{
   background-color: #ffffff;
@@ -24,9 +24,9 @@
 }
 .result-tooltip{
   background-color: white;
-  border-width: medium;
+  border-width: small;
   border-color: #de0000;
-  font-size: smaller;
+  font-size: small;
 }
 .moving-tooltip{
   background-color: rgba(255, 255, 255, .7);
@@ -34,7 +34,7 @@
   opacity: 0.5;
   border: dotted;
   border-color: red;
-  font-size: smaller;
+  font-size: small;
 }
 .plus-length{
   padding-left: 45px;
