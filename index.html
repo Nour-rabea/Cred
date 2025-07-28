@@ -86,13 +86,9 @@
 	<div id="map"></div>
 	<button id="container" class="btn">Prices Analysis</button>
 	<button id="container1" class="btn" onclick="masterplan()">Master Plans</button>
-  <button id="container2" class="btn" onclick="threshold()">Thershold 5km</button>
+  <button id="container2" class="btn" onclick="threshold()">Threshold 5km</button>
   
   <table id="maptable" class="display"></table>
-
-  <button id="drawButton" style="position: fixed; top: 250px; right: 9px; z-index: 1000; padding: 5px 10px; background-color: #2e4053; color: white; border: bold; border-radius: 5px; cursor: pointer;">
-  Draw
-</button>
 
 	
 <script type="text/javascript">
@@ -171,7 +167,8 @@ var options = {
     },
 };
 
-      const drawButton = document.getElementById("drawButton");
+
+
   let isDrawing = false;
   let isDrawingMode = false;
   let drawnLines = [];
@@ -185,27 +182,13 @@ var options = {
     }
   }
 
-  drawButton.addEventListener("click", () => {
-    if (isDrawingMode) {
-      // الضغط الثاني على الزر ➜ مسح الرسومات والخروج من وضع الرسم
-      isDrawingMode = false;
-      drawButton.style.backgroundColor = "#2e4053";
-      map.dragging.enable();
-      drawnLines = [];
-      drawLayer.clearLayers();
-    } else {
-      // بدء الرسم ➜ تعطيل تحريك الخريطة
-      isDrawingMode = true;
-      drawButton.style.backgroundColor = "#099096";
-      map.dragging.disable();
-    }
-  });
+
 
   // زر ESC لإيقاف وضع الرسم فقط
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && isDrawingMode) {
       isDrawingMode = false;
-      drawButton.style.backgroundColor = "#2e4053";
+      document.querySelector('.leaflet-control-draw').style.backgroundColor = "#2e4053";
       map.dragging.enable();
     }
   });
