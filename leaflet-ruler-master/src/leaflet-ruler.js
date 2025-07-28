@@ -28,13 +28,7 @@
         display: 'km',
         decimal: 2,
         factor: null,
-        label: 'Distance:'
-      },
-      angleUnit: {
-        display: '&deg;',
-        decimal: 2,
-        factor: null,
-        label: 'Bearing:'
+        label: '' // Changed from 'Distance:' to ''
       }
     },
     isActive: function () {
@@ -95,15 +89,7 @@
         if (this._movingLatLong){
           L.polyline([this._clickedPoints[this._clickCount-1], this._movingLatLong], this.options.lineStyle).addTo(this._polylineLayer);
         }
-        var text;
         this._totalLength += this._result.Distance;
-        if (this._clickCount > 1){
-          text = '<b>' + this.options.angleUnit.label + '</b>&nbsp;' + this._result.Bearing.toFixed(this.options.angleUnit.decimal) + '&nbsp;' + this.options.angleUnit.display + '<br><b>' + this.options.lengthUnit.label + '</b>&nbsp;' + this._totalLength.toFixed(this.options.lengthUnit.decimal) + '&nbsp;' +  this.options.lengthUnit.display;
-        }
-        else {
-          text = '<b>' + this.options.angleUnit.label + '</b>&nbsp;' + this._result.Bearing.toFixed(this.options.angleUnit.decimal) + '&nbsp;' + this.options.angleUnit.display + '<br><b>' + this.options.lengthUnit.label + '</b>&nbsp;' + this._result.Distance.toFixed(this.options.lengthUnit.decimal) + '&nbsp;' +  this.options.lengthUnit.display;
-        }
-        L.circleMarker(this._clickedLatLong, this.options.circleMarker).bindTooltip(text, {permanent: true, className: 'result-tooltip'}).addTo(this._pointLayer).openTooltip();
       }
       this._clickCount++;
     },
@@ -125,10 +111,10 @@
         this._addedLength = this._result.Distance + this._totalLength;
         L.polyline([this._clickedLatLong, this._movingLatLong], this.options.lineStyle).addTo(this._tempLine);
         if (this._clickCount > 1){
-          text = '<b>' + this.options.angleUnit.label + '</b>&nbsp;' + this._result.Bearing.toFixed(this.options.angleUnit.decimal) + '&nbsp;' + this.options.angleUnit.display + '<br><b>' + this.options.lengthUnit.label + '</b>&nbsp;' + this._addedLength.toFixed(this.options.lengthUnit.decimal) + '&nbsp;' +  this.options.lengthUnit.display + '<br><div class="plus-length">(+' + this._result.Distance.toFixed(this.options.lengthUnit.decimal) + ')</div>';
+          text = this._addedLength.toFixed(this.options.lengthUnit.decimal) + '&nbsp;' +  this.options.lengthUnit.display + '<br><div class="plus-length">(+' + this._result.Distance.toFixed(this.options.lengthUnit.decimal) + ')</div>';
         }
         else {
-          text = '<b>' + this.options.angleUnit.label + '</b>&nbsp;' + this._result.Bearing.toFixed(this.options.angleUnit.decimal) + '&nbsp;' + this.options.angleUnit.display + '<br><b>' + this.options.lengthUnit.label + '</b>&nbsp;' + this._result.Distance.toFixed(this.options.lengthUnit.decimal) + '&nbsp;' +  this.options.lengthUnit.display;
+          text = this._result.Distance.toFixed(this.options.lengthUnit.decimal) + '&nbsp;' +  this.options.lengthUnit.display;
         }
         L.circleMarker(this._movingLatLong, this.options.circleMarker).bindTooltip(text, {sticky: true, offset: L.point(0, -40) ,className: 'moving-tooltip'}).addTo(this._tempPoint).openTooltip();
       }
@@ -147,12 +133,6 @@
     _calculateBearingAndDistance: function() {
       var f1 = this._clickedLatLong.lat, l1 = this._clickedLatLong.lng, f2 = this._movingLatLong.lat, l2 = this._movingLatLong.lng;
       var toRadian = Math.PI / 180;
-      // haversine formula
-      // bearing
-      var y = Math.sin((l2-l1)*toRadian) * Math.cos(f2*toRadian);
-      var x = Math.cos(f1*toRadian)*Math.sin(f2*toRadian) - Math.sin(f1*toRadian)*Math.cos(f2*toRadian)*Math.cos((l2-l1)*toRadian);
-      var brng = Math.atan2(y, x)*((this.options.angleUnit.factor ? this.options.angleUnit.factor/2 : 180)/Math.PI);
-      brng += brng < 0 ? (this.options.angleUnit.factor ? this.options.angleUnit.factor : 360) : 0;
       // distance
       var R = this.options.lengthUnit.factor ? 6371 * this.options.lengthUnit.factor : 6371; // kilometres
       var deltaF = (f2 - f1)*toRadian;
@@ -161,14 +141,20 @@
       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
       var distance = R * c;
       this._result = {
-        Bearing: brng,
         Distance: distance
       };
     },
     _closePath: function() {
       this._map.removeLayer(this._tempLine);
       this._map.removeLayer(this._tempPoint);
-      if (this._clickCount <= 1) this._map.removeLayer(this._pointLayer);
+      if (this._clickCount <= 1) {
+        this._map.removeLayer(this._pointLayer);
+      } else {
+        // Add tooltip to the last point with total distance
+        var lastPoint = this._clickedPoints[this._clickedPoints.length - 1];
+        var text = this._totalLength.toFixed(this.options.lengthUnit.decimal) + '&nbsp;' + this.options.lengthUnit.display;
+        L.circleMarker(lastPoint, this.options.circleMarker).bindTooltip(text, {permanent: true, className: 'result-tooltip'}).addTo(this._pointLayer).openTooltip();
+      }
       this._choice = false;
       L.DomEvent.on(this._container, 'click', this._toggleMeasure, this);
       this._toggleMeasure();
