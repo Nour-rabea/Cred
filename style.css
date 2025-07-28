@@ -159,6 +159,38 @@ top: +5%;
   top: +10.7%;
 }
 
+.leaflet-control-draw {
+    background: #fff;
+    border: 2px solid rgb(0,0,0,0.2);
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 1000;
+    margin-left: 0;
+    margin-top: 0px;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.leaflet-control-draw .draw-button {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    width: 30px;
+    height: 30px;
+    background: url('media/c.png') no-repeat center center #ffffff; /* Replace with your draw icon */
+    border-radius: 4px;
+    margin: 2px;
+    text-decoration: none;
+}
+
+.leaflet-control-draw .draw-button:hover {
+    background: url('media/c.png') no-repeat center center #dddada; /* Hover effect */
+}
+
+.leaflet-control-draw .draw-button i.material-icons {
+    color: #474646;
+}
+
 /* Customize the default tooltip appearance */
 .custom-tooltip {
   position: absolute; /* Use absolute positioning to follow the mouse */
