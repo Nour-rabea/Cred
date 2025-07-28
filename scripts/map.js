@@ -724,7 +724,7 @@ return group;
     }
 
 
-    
+
     // Change Map attribution to include author's info + urls
     changeAttribution();
 
@@ -979,6 +979,42 @@ return group;
     L.control.layers(baseMaps, overlayMaps).setPosition('bottomright').addTo(map);
     L.control.ruler(options).addTo(map);
 
+
+    // Custom Leaflet control for the Draw button
+L.Control.DrawButton = L.Control.extend({
+    options: {
+        position: 'bottomright' // Same position as the search control
+    },
+    onAdd: function (map) {
+        var container = L.DomUtil.create('div', 'leaflet-control-draw leaflet-control');
+        container.innerHTML = '<a class="draw-button" href="#" title="Toggle Draw Mode"><i class="material-icons">edit</i></a>';
+
+        // Prevent map interactions when clicking the button
+        L.DomEvent.disableClickPropagation(container);
+
+        // Toggle drawing mode on click
+        L.DomEvent.on(container, 'click', function () {
+            if (isDrawingMode) {
+                isDrawingMode = false;
+                container.style.backgroundColor = '#ffffff'; // Default color
+                map.dragging.enable();
+                drawnLines = [];
+                drawLayer.clearLayers();
+            } else {
+                isDrawingMode = true;
+                container.style.backgroundColor = 'red'; // Active color
+                map.dragging.disable();
+            }
+        });
+
+        return container;
+    }
+});
+
+// Add the Draw control to the map
+var drawControl = new L.Control.DrawButton();
+map.addControl(drawControl);
+
         // Add location control
     if (getSetting('_mapMyLocation') !== 'off') {
       var locationControl = L.control.locate({
@@ -996,17 +1032,16 @@ return group;
     map.on('zoomend', function() {
       togglePolygonLabels();
     });
-
-    addTitle();
-    
+       addTitle();
+ 
     //control search
-const searchControl = new L.Control.Search({
-  layer: searchLayer,
-  zoom: "13",
-  propertyName: 'Project'
-}).setPosition('bottomright');
-map.addControl(searchControl);
-map.removeLayer(searchLayer);
+    const searchControl = new L.Control.Search({
+      layer: searchLayer,
+      zoom: "13",
+      propertyName: 'Project'
+    }).setPosition('bottomright');
+    map.addControl(searchControl);
+    map.removeLayer(searchLayer);
   }
 
   /**
